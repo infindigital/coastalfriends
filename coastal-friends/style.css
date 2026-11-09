@@ -1,0 +1,37 @@
+/*
+Theme Name: Coastal Friends
+Theme URI: https://coastalfriends.org/
+Author: Infin Digital
+Description: Classic theme for Coastal Friends Mangalore, generated from the live Elementor site (Hello Elementor + Elementor + Pro Elements). Each page's design is a static template with all CSS, JS, fonts and images bundled in assets/.
+Version: 1.0.0
+Requires at least: 6.5
+Requires PHP: 7.4
+License: GNU General Public License v3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: coastal-friends
+*/
+
+/* Additional CSS carried over from the Customizer (wp-custom-css). */
+/** Start Block Kit CSS: 141-3-1d55f1e76be9fb1a8d9de88accbe962f **/
+
+.envato-kit-138-bracket .elementor-widget-container > *:before{
+	content:"[";
+	color:#ffab00;
+	display:inline-block;
+	margin-right:4px;
+	line-height:1em;
+	position:relative;
+	top:-1px;
+}
+
+.envato-kit-138-bracket .elementor-widget-container > *:after{
+	content:"]";
+	color:#ffab00;
+	display:inline-block;
+	margin-left:4px;
+	line-height:1em;
+	position:relative;
+	top:-1px;
+}
+
+/** End Block Kit CSS: 141-3-1d55f1e76be9fb1a8d9de88accbe962f **/
