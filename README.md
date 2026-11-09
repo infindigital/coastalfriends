@@ -39,7 +39,7 @@ A classic WordPress theme that reproduces the pages above exactly. In a side-by-
 
 ### Rebuild
 ```bash
-python3 -I tools/mirror.py urls.txt coastal-friends/assets       # download assets listed in urls.txt
+python3 -I tools/mirror.py tools/urls.txt coastal-friends/assets       # download assets listed in tools/urls.txt
 python3 -I tools/relativize_css.py coastal-friends/assets         # point CSS at local copies
 python3 -I tools/build_theme.py . coastal-friends                 # regenerate templates + manifest from the *.html snapshots
 ```
