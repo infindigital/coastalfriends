@@ -1,6 +1,6 @@
 <?php
 /**
- * Site header (converted from the Elementor header template #505).
+ * Site header for normal WordPress views (Elementor header template #505).
  *
  * @package Coastal_Friends
  */

@@ -32,11 +32,26 @@ add_action( 'after_setup_theme', 'cf_setup' );
 /**
  * URL of a bundled asset. $path is relative to assets/ (mirrors wp-content/).
  *
+ * Media-library images (uploads/YYYY/MM/...) are taken from the site's own
+ * uploads folder when the file exists there (e.g. on coastalfriends.org), so
+ * the theme can be installed without its bundled copy of the images.
+ *
  * @param string $path Relative asset path.
  * @return string
  */
 function cf_assets_url( $path = '' ) {
-	return get_template_directory_uri() . '/assets/' . ltrim( $path, '/' );
+	$path = ltrim( $path, '/' );
+	if ( 0 === strpos( $path, 'uploads/' ) && 0 !== strpos( $path, 'uploads/elementor/' ) ) {
+		static $uploads = null;
+		if ( null === $uploads ) {
+			$uploads = wp_get_upload_dir();
+		}
+		$rel = substr( $path, strlen( 'uploads/' ) );
+		if ( empty( $uploads['error'] ) && file_exists( $uploads['basedir'] . '/' . $rel ) ) {
+			return $uploads['baseurl'] . '/' . $rel;
+		}
+	}
+	return get_template_directory_uri() . '/assets/' . $path;
 }
 
 /**
@@ -64,40 +79,111 @@ function cf_asset_data() {
 }
 
 /**
- * Key of the static design for the current request ('' when none applies).
+ * Path of the current request without slashes ('' for the home page).
  *
  * @return string
  */
-function cf_page_key() {
-	$data = cf_asset_data();
-	if ( is_front_page() && ! is_home() ) {
-		return 'home';
-	}
-	if ( is_page() ) {
-		$slug = get_post_field( 'post_name', get_queried_object_id() );
-		if ( isset( $data['pages'][ $slug ] ) && 'home' !== $slug ) {
-			return $slug;
-		}
-	}
-	return '';
+function cf_request_path() {
+	global $wp;
+	return isset( $wp->request ) ? trim( (string) $wp->request, '/' ) : '';
 }
 
 /**
- * Always use the theme's static template for converted pages, even when
- * Elementor is active and the page is set to an Elementor page template.
+ * Snapshot key for the current request, or null when WordPress should render
+ * normally (new posts/pages, search, previews, feeds, admin ...).
+ *
+ * @return string|null
+ */
+function cf_page_key() {
+	static $key = false;
+	if ( false !== $key && did_action( 'wp' ) ) {
+		return $key;
+	}
+	$data   = cf_asset_data();
+	$path   = cf_request_path();
+	$result = null;
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	$query_override = array_intersect( array_keys( $_GET ), array( 's', 'p', 'page_id', 'preview', 'feed', 'attachment_id', 'cat', 'tag', 'author' ) );
+	if ( array_key_exists( $path, $data['pages'] ) && ! is_admin() && ! is_feed() && ! is_preview() && ! is_search() && empty( $query_override ) ) {
+		$result = $path;
+	}
+	if ( did_action( 'wp' ) ) {
+		$key = $result;
+	}
+	return $result;
+}
+
+/**
+ * Original URLs are served from snapshots, so they must never 404 or be
+ * redirected by WordPress (e.g. on a fresh install where the posts don't exist).
+ */
+function cf_router_status() {
+	global $wp_query;
+	if ( null === cf_page_key() ) {
+		return;
+	}
+	if ( $wp_query->is_404() ) {
+		$wp_query->is_404 = false;
+		status_header( 200 );
+	}
+}
+add_action( 'wp', 'cf_router_status', PHP_INT_MAX );
+
+/**
+ * Stop canonical/"guess" redirects for snapshot URLs.
+ *
+ * @param string|false $redirect Redirect target.
+ * @return string|false
+ */
+function cf_no_redirect( $redirect ) {
+	return null === cf_page_key() ? $redirect : false;
+}
+add_filter( 'redirect_canonical', 'cf_no_redirect', PHP_INT_MAX );
+add_filter(
+	'do_redirect_guess_404_permalink',
+	static function ( $do ) {
+		return null === cf_page_key() ? $do : false;
+	},
+	PHP_INT_MAX
+);
+
+/**
+ * Serve the snapshot template for original URLs (beats Elementor's templates too).
  *
  * @param string $template Template chosen by WordPress.
  * @return string
  */
 function cf_template_include( $template ) {
-	$key = cf_page_key();
-	if ( '' === $key ) {
+	if ( null === cf_page_key() ) {
 		return $template;
 	}
-	$located = locate_template( 'home' === $key ? 'front-page.php' : 'page-' . $key . '.php' );
+	$located = locate_template( 'snapshot.php' );
 	return $located ? $located : $template;
 }
 add_filter( 'template_include', 'cf_template_include', PHP_INT_MAX );
+
+/**
+ * Asset/meta set for the current request.
+ *
+ * @return array
+ */
+function cf_current_set() {
+	$data = cf_asset_data();
+	$key  = cf_page_key();
+	return null === $key ? $data['base'] : $data['pages'][ $key ];
+}
+
+/**
+ * Use the original page title for snapshot URLs.
+ *
+ * @param string $title Title.
+ * @return string
+ */
+function cf_document_title( $title ) {
+	$set = cf_current_set();
+	return null === cf_page_key() ? $title : $set['title'];
+}
+add_filter( 'pre_get_document_title', 'cf_document_title', PHP_INT_MAX );
 
 /**
  * Fill runtime placeholders in the inline Elementor config scripts.
@@ -117,6 +203,8 @@ function cf_fill_inline( $code ) {
 			'{{REST}}'         => $json( rest_url() ),
 			'{{HOME}}'         => $json( home_url( '/' ) ),
 			'{{HOME_NOSLASH}}' => $json( untrailingslashit( home_url() ) ),
+			'{{ASSETS_RAW}}'   => esc_url_raw( cf_assets_url() ),
+			'{{HOME_RAW}}'     => esc_url_raw( home_url( '/' ) ),
 			'{{PRO_NONCE}}'    => wp_create_nonce( 'elementor-pro-frontend' ),
 		)
 	);
@@ -129,13 +217,29 @@ function cf_fill_inline( $code ) {
  * active their copies are replaced instead of being loaded twice.
  */
 function cf_enqueue_assets() {
-	$data = cf_asset_data();
-	$key  = cf_page_key();
-	$set  = '' === $key ? $data['base'] : $data['pages'][ $key ];
+	$set = cf_current_set();
+
+	if ( null !== cf_page_key() ) {
+		// Core styles the original page did not load (they would change the layout).
+		$listed = wp_list_pluck( $set['styles'], 0 );
+		foreach ( array( 'wp-block-library', 'wp-block-library-theme', 'classic-theme-styles', 'global-styles' ) as $core ) {
+			if ( ! in_array( $core, $listed, true ) ) {
+				wp_dequeue_style( $core );
+			}
+		}
+	}
 
 	$prev = array();
 	foreach ( $set['styles'] as $style ) {
 		list( $handle, $path, $ver, $media ) = $style;
+		if ( null === $path ) { // Original global-styles CSS (inc/global-styles/<hash>.css).
+			$css = file_get_contents( get_template_directory() . '/inc/global-styles/' . basename( $ver ) . '.css' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			wp_register_style( $handle, false, $prev ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_add_inline_style( $handle, $css );
+			wp_enqueue_style( $handle );
+			$prev = array( $handle );
+			continue;
+		}
 		wp_deregister_style( $handle );
 		wp_register_style( $handle, cf_assets_url( $path ), $prev, $ver, $media );
 		wp_enqueue_style( $handle );
@@ -182,18 +286,42 @@ function cf_lazyload_script() {
 add_action( 'wp_footer', 'cf_lazyload_script', 5 );
 
 /**
- * Body classes the Elementor CSS relies on (kit, page and template classes).
+ * Body classes: the original page's exact classes for snapshot URLs, plus the
+ * Elementor kit classes for normal views. Logged-in/admin-bar classes are kept.
  *
  * @param string[] $classes Body classes.
  * @return string[]
  */
 function cf_body_class( $classes ) {
-	$data = cf_asset_data();
-	$key  = cf_page_key();
-	$set  = '' === $key ? $data['base'] : $data['pages'][ $key ];
-	return array_values( array_unique( array_merge( $classes, $set['body_class'] ) ) );
+	$set = cf_current_set();
+	if ( null === cf_page_key() ) {
+		return array_values( array_unique( array_merge( $classes, $set['body_class'] ) ) );
+	}
+	$keep = array_intersect( $classes, array( 'logged-in', 'admin-bar', 'no-customize-support', 'customize-support' ) );
+	return array_values( array_unique( array_merge( $set['body_class'], $keep ) ) );
 }
-add_filter( 'body_class', 'cf_body_class' );
+add_filter( 'body_class', 'cf_body_class', PHP_INT_MAX );
+
+/**
+ * Extra original tags: module preloads in <head>; import map, script-module
+ * data and block-supports CSS after the footer scripts.
+ */
+function cf_print_head_extra() {
+	foreach ( cf_current_set()['head_extra'] as $tag ) {
+		echo cf_fill_inline( $tag ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-bundled markup.
+	}
+}
+add_action( 'wp_head', 'cf_print_head_extra', 30 );
+
+/**
+ * Footer half of cf_print_head_extra().
+ */
+function cf_print_footer_extra() {
+	foreach ( cf_current_set()['footer_extra'] as $tag ) {
+		echo cf_fill_inline( $tag ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-bundled markup.
+	}
+}
+add_action( 'wp_footer', 'cf_print_footer_extra', 30 );
 
 /**
  * Is the given site path the page being viewed?
@@ -202,11 +330,7 @@ add_filter( 'body_class', 'cf_body_class' );
  * @return bool
  */
 function cf_is_current( $path ) {
-	$slug = trim( $path, '/' );
-	if ( '' === $slug ) {
-		return is_front_page();
-	}
-	return is_page( $slug );
+	return trim( $path, '/' ) === cf_request_path();
 }
 
 /**
