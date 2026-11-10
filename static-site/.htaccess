@@ -1,0 +1,4 @@
+# Apache / LiteSpeed (Hostinger): pretty folder URLs and the custom 404 page
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+Options -Indexes

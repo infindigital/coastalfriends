@@ -1,8 +1,28 @@
 # Coastal Friends
 
+## Static website: `static-site/`
+
+`static-site/` is a complete, standalone HTML copy of https://coastalfriends.org. It doesn't need WordPress, a database or the old site.
+
+* **81 pages**: every page, every news post, category/tag/author archives and all their pagination (`/page/2/` … `/page/13/`, `/gallery/2/`, `/gallery/3/` …), plus `404.html`.
+* Each page is `<path>/index.html`, so the URLs stay exactly the same (`/about-us/`, `/ifthar-party-2/`, `/category/gallery/page/2/` …).
+* All CSS, JavaScript, fonts and images are inside the folder at their original locations (`wp-content/…`, `wp-includes/…`). Every link is relative, and nothing is loaded from the old site.
+* The contact forms work: `wp-admin/admin-ajax.php` is a small PHP script that emails each submission to `info@coastalfriends.org` (change `$cf_to` at the top of that file). It needs PHP `mail()`, which Hostinger provides.
+* `.htaccess` sets `index.html` as the folder index and serves `404.html` for missing pages.
+
+### Upload to Hostinger
+1. Hostinger hPanel → **File Manager** → open `public_html` and delete the old WordPress files (keep a backup).
+2. Upload `coastal-friends-static-1-site.zip`, `coastal-friends-static-2-images.zip` and `coastal-friends-static-3-images.zip` into `public_html` and **Extract** each one there. They fill the same folders.
+3. Open https://coastalfriends.org/ to check it. Send a test message from the Contact Us page.
+
+### Rebuild
+```bash
+python3 -I tools/build_static.py site coastal-friends/assets static-site
+```
+
 `site/` holds the exact rendered HTML of **every public URL** on https://coastalfriends.org (69 URLs: pages, all news posts, category/tag/author archives and their pagination), downloaded as served. `site/<path>/index.html` is the copy of `https://coastalfriends.org/<path>/`.
 
-## WordPress theme: `coastal-friends/`
+## WordPress theme: `coastal-friends/` (earlier version, not needed for the static site)
 
 A classic WordPress theme that reproduces **every page of the site exactly**: all 69 URLs, including every news post, category, tag and author archive, and their page 2/3/4.
 
