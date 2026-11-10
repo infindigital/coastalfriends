@@ -14,7 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CF_VERSION', '1.0.0' );
+define( 'CF_VERSION', '2.1.0' );
+
+require get_template_directory() . '/inc/forms.php';
 
 /**
  * Theme setup.
@@ -104,8 +106,10 @@ function cf_page_key() {
 	$result = null;
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$query_override = array_intersect( array_keys( $_GET ), array( 's', 'p', 'page_id', 'preview', 'feed', 'attachment_id', 'cat', 'tag', 'author' ) );
-	if ( array_key_exists( $path, $data['pages'] ) && ! is_admin() && ! is_feed() && ! is_preview() && ! is_search() && empty( $query_override ) ) {
+	if ( 0 !== strpos( $path, '__' ) && array_key_exists( $path, $data['pages'] ) && ! is_admin() && ! is_feed() && ! is_preview() && ! is_search() && empty( $query_override ) ) {
 		$result = $path;
+	} elseif ( is_404() && isset( $data['pages']['__404'] ) ) {
+		$result = '__404'; // The original site's "page not found" design.
 	}
 	if ( did_action( 'wp' ) ) {
 		$key = $result;
@@ -119,7 +123,8 @@ function cf_page_key() {
  */
 function cf_router_status() {
 	global $wp_query;
-	if ( null === cf_page_key() ) {
+	$key = cf_page_key();
+	if ( null === $key || '__404' === $key ) {
 		return;
 	}
 	if ( $wp_query->is_404() ) {
@@ -136,13 +141,23 @@ add_action( 'wp', 'cf_router_status', PHP_INT_MAX );
  * @return string|false
  */
 function cf_no_redirect( $redirect ) {
-	return null === cf_page_key() ? $redirect : false;
+	return cf_is_snapshot_url() ? false : $redirect;
+}
+
+/**
+ * Is the request one of the original site's URLs (not the 404 page)?
+ *
+ * @return bool
+ */
+function cf_is_snapshot_url() {
+	$key = cf_page_key();
+	return null !== $key && '__404' !== $key;
 }
 add_filter( 'redirect_canonical', 'cf_no_redirect', PHP_INT_MAX );
 add_filter(
 	'do_redirect_guess_404_permalink',
 	static function ( $do ) {
-		return null === cf_page_key() ? $do : false;
+		return cf_is_snapshot_url() ? false : $do;
 	},
 	PHP_INT_MAX
 );

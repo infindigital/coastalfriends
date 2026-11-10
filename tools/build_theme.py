@@ -182,10 +182,15 @@ def key_of(fname):
 
 
 def snap_file(key):
+    if key == "__404":
+        return "not-found"
     return "front" if key == "" else key.replace("/", "__")
 
 
 pages = {key_of(f): parse(f) for f in sorted(glob.glob(os.path.join(SRC, "**", "index.html"), recursive=True))}
+# The site's own "page not found" design; served by the theme for any 404.
+if os.path.exists(os.path.join(SRC, "404.html")):
+    pages["__404"] = parse(os.path.join(SRC, "404.html"))
 home = pages[""]
 
 # Clean out previous generated files.
@@ -198,7 +203,7 @@ os.makedirs(os.path.join(THEME, "template-parts"), exist_ok=True)
 os.makedirs(os.path.join(THEME, "inc"), exist_ok=True)
 
 for key, p in pages.items():
-    url = "https://coastalfriends.org/" + (key + "/" if key else "")
+    url = "https://coastalfriends.org/" + ("<any missing URL> (404 page)" if key == "__404" else (key + "/" if key else ""))
     open(os.path.join(THEME, "snapshots", snap_file(key) + ".php"), "w", encoding="utf-8").write(
         "<?php\n/**\n * Snapshot of %s - exact <body> markup. Served by cf_router (functions.php).\n *\n"
         " * @package Coastal_Friends\n */\n\ndefined( 'ABSPATH' ) || exit;\n?>\n" % url
@@ -209,7 +214,7 @@ def common(lists):
     return [x for x in lists[0] if all(x in l for l in lists[1:])]
 
 
-base_styles = [s for s in common([p["assets"]["styles"] for p in pages.values()])
+base_styles = [s for s in common([p["assets"]["styles"] for k, p in pages.items() if k != "__404"])
                if not re.match(r"elementor-post-(?!234|505|526)", s[0])]
 base = {"title": "", "styles": base_styles, "scripts": common([p["assets"]["scripts"] for p in pages.values()]),
         "inline_before": home["assets"]["inline_before"], "body_class": ["elementor-default", "elementor-kit-234"],
@@ -270,7 +275,7 @@ Theme Name: Coastal Friends
 Theme URI: https://coastalfriends.org/
 Author: Infin Digital
 Description: Exact copy of the Coastal Friends Mangalore website (all pages, news posts, categories, tags and archives). Every URL of the original site is served from a snapshot with all CSS, JS, fonts and images bundled, so the site looks identical on any WordPress install. New posts and pages use the same header and footer.
-Version: 2.0.0
+Version: 2.1.0
 Requires at least: 6.5
 Requires PHP: 7.4
 License: GNU General Public License v3 or later
