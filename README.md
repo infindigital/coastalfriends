@@ -32,7 +32,7 @@ How it works:
 * `snapshots/*.php` hold each URL's exact `<body>` markup. `snapshot.php` wraps it in `wp_head()` / `wp_footer()`.
 * `functions.php` routes by URL: when a request's path matches an original URL (e.g. `/about-us/`, `/ifthar-party-2/`, `/page/5/`), the theme serves that snapshot with a 200 status, whether or not that page or post exists in the database. Any other missing URL gets the original "page not found" design (`snapshots/not-found.php`) with a 404 status.
 * `inc/page-assets.json` lists, per URL, the original title, body classes, stylesheets/scripts (in the original order), inline config, block CSS and image-lightbox script modules.
-* `assets/` holds the CSS, JS and fonts. Media-library images are read from `wp-content/uploads/` (shipped as `coastal-friends-uploads-1.zip` / `-2.zip`). If an image is missing there, the theme's own `assets/uploads/` copy is used.
+* `assets/` holds the CSS, JS, fonts and images. In the packaged zip the photos are WebP copies inside the theme. If a photo also exists in `wp-content/uploads/`, that copy is used instead.
 * Contact forms: when PRO Elements isn't installed, the theme handles the forms itself (`inc/forms.php`) and emails each message with `wp_mail()` to the address set in **Appearance → Customize → Contact form** (default `info@coastalfriends.org`).
 * New posts/pages and search are rendered by WordPress normally with the same header and footer.
 * The snapshots are static: to change text, edit `snapshots/<page>.php`.
@@ -40,11 +40,13 @@ How it works:
 ### Google Analytics
 Appearance → Customize → **Google Analytics**: paste the GA4 Measurement ID (`G-XXXXXXXXXX`) and publish. The theme then adds the gtag.js snippet to every page. By default it doesn't count logged-in administrators (there's a checkbox to change that). Leave the field empty to turn tracking off.
 
-### Install
-1. Appearance → Themes → Add New → Upload Theme → `coastal-friends-theme.zip` → Install → **Activate**.
-2. hPanel → File Manager → `public_html/wp-content/uploads/`: upload `coastal-friends-uploads-1.zip` and `coastal-friends-uploads-2.zip` there and **Extract** both. This creates `2024/`, `2025/` and `2026/` with all the photos.
-3. Settings → Permalinks → choose **Post name** → Save. This makes the pretty URLs work.
-4. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
+### Install (one file)
+`coastal-friends.zip` (≈123 MB) contains the theme **and every photo**. It's built by `tools/pack_theme.py`, which keeps the image sizes the pages display, adds one large copy per photo for the lightbox, and converts everything to WebP. The pages look the same; the photos are re-compressed.
+
+1. WordPress → Appearance → Themes → Add New → **Upload Theme** → `coastal-friends.zip` → Install → **Activate**.
+   If WordPress says the file is too large, the site's upload limit is under 123 MB (shown in Media → Add New as "Maximum upload file size"). Ask your host to raise `upload_max_filesize` and `post_max_size` to 256M.
+2. Settings → Permalinks → choose **Post name** → Save.
+3. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
 
 ### Rebuild
 ```bash
@@ -52,4 +54,5 @@ python3 -I tools/crawl.py tools/seed-urls.txt site                     # re-down
 python3 -I tools/mirror.py tools/urls.txt coastal-friends/assets       # download assets listed in tools/urls.txt
 python3 -I tools/relativize_css.py coastal-friends/assets              # point CSS at local copies
 python3 -I tools/build_theme.py site coastal-friends                   # regenerate snapshots + manifest from site/
+python3 -I tools/pack_theme.py coastal-friends dist && (cd dist && zip -qr -9 ../coastal-friends.zip coastal-friends)   # one installable zip
 ```
