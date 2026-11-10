@@ -241,3 +241,88 @@ function cf_menu_link_class( $path ) {
 		echo ' elementor-item-active';
 	}
 }
+
+/**
+ * Customizer: Appearance → Customize → Google Analytics.
+ *
+ * @param WP_Customize_Manager $wp_customize Customizer instance.
+ */
+function cf_customize_analytics( $wp_customize ) {
+	$wp_customize->add_section(
+		'cf_analytics',
+		array(
+			'title'       => __( 'Google Analytics', 'coastal-friends' ),
+			'description' => __( 'Paste your GA4 Measurement ID (looks like G-XXXXXXXXXX). Leave empty to turn tracking off.', 'coastal-friends' ),
+			'priority'    => 160,
+		)
+	);
+	$wp_customize->add_setting(
+		'cf_ga_measurement_id',
+		array(
+			'type'              => 'theme_mod',
+			'default'           => '',
+			'sanitize_callback' => 'cf_sanitize_ga_id',
+		)
+	);
+	$wp_customize->add_control(
+		'cf_ga_measurement_id',
+		array(
+			'label'       => __( 'Measurement ID', 'coastal-friends' ),
+			'section'     => 'cf_analytics',
+			'type'        => 'text',
+			'input_attrs' => array( 'placeholder' => 'G-XXXXXXXXXX' ),
+		)
+	);
+	$wp_customize->add_setting(
+		'cf_ga_skip_admins',
+		array(
+			'type'              => 'theme_mod',
+			'default'           => true,
+			'sanitize_callback' => 'wp_validate_boolean',
+		)
+	);
+	$wp_customize->add_control(
+		'cf_ga_skip_admins',
+		array(
+			'label'   => __( "Don't track logged-in administrators", 'coastal-friends' ),
+			'section' => 'cf_analytics',
+			'type'    => 'checkbox',
+		)
+	);
+}
+add_action( 'customize_register', 'cf_customize_analytics' );
+
+/**
+ * Accept only a GA4 Measurement ID (G-XXXXXXXX); anything else is cleared.
+ *
+ * @param string $value Raw input.
+ * @return string
+ */
+function cf_sanitize_ga_id( $value ) {
+	$value = strtoupper( trim( (string) $value ) );
+	return preg_match( '/^G-[A-Z0-9]{4,20}$/', $value ) ? $value : '';
+}
+
+/**
+ * Print the Google Analytics (gtag.js) snippet in <head> when an ID is set.
+ */
+function cf_print_analytics() {
+	$id = cf_sanitize_ga_id( get_theme_mod( 'cf_ga_measurement_id', '' ) );
+	if ( '' === $id || is_customize_preview() ) {
+		return;
+	}
+	if ( get_theme_mod( 'cf_ga_skip_admins', true ) && current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	?>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr( $id ); ?>"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', '<?php echo esc_js( $id ); ?>');
+</script>
+	<?php
+}
+add_action( 'wp_head', 'cf_print_analytics', 1 );

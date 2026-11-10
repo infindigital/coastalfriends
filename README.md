@@ -32,6 +32,9 @@ A classic WordPress theme that reproduces the pages above exactly. In a side-by-
 * The pages are static: text and the "latest posts" grids are frozen as they were on 2026-11-09. Edit the template files to change them.
 * The contact forms still post to Pro Elements. Keep **Elementor + Pro Elements active** if the forms must send.
 
+### Google Analytics
+Appearance → Customize → **Google Analytics**: paste the GA4 Measurement ID (`G-XXXXXXXXXX`) and publish. The theme then adds the gtag.js snippet to every page. By default it doesn't count logged-in administrators (there's a checkbox to change that). Leave the field empty to turn tracking off.
+
 ### Install
 1. Back up the site.
 2. Appearance → Themes → Add New → Upload, choose `coastal-friends.zip` (≈55 MB). If the host's upload limit is lower, upload the `coastal-friends/` folder to `wp-content/themes/` over FTP / File Manager.
