@@ -40,13 +40,18 @@ How it works:
 ### Google Analytics
 Appearance → Customize → **Google Analytics**: paste the GA4 Measurement ID (`G-XXXXXXXXXX`) and publish. The theme then adds the gtag.js snippet to every page. By default it doesn't count logged-in administrators (there's a checkbox to change that). Leave the field empty to turn tracking off.
 
-### Install (one file)
-`coastal-friends.zip` (≈123 MB) contains the theme **and every photo**. It's built by `tools/pack_theme.py`, which keeps the image sizes the pages display, adds one large copy per photo for the lightbox, and converts everything to WebP. The pages look the same; the photos are re-compressed.
+### Install (no File Manager needed)
+The theme is shipped as a small theme zip plus photo zips, so every upload stays well under typical hosting upload limits:
+
+* `coastal-friends.zip` (≈7 MB): the theme.
+* `coastal-friends-photos-1.zip` … `-8.zip` (≈15 MB each): the 2,572 photos (WebP, made by `tools/pack_theme.py` + `tools/split_photos.py`).
 
 1. WordPress → Appearance → Themes → Add New → **Upload Theme** → `coastal-friends.zip` → Install → **Activate**.
-   If WordPress says the file is too large, the site's upload limit is under 123 MB (shown in Media → Add New as "Maximum upload file size"). Ask your host to raise `upload_max_filesize` and `post_max_size` to 256M.
-2. Settings → Permalinks → choose **Post name** → Save.
-3. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
+2. Appearance → **Coastal Friends Photos** → select all 8 photo zips at once → **Upload**. Keep the page open until it says **Done** and shows *2572 of 2572 photos installed*. The photos go into `wp-content/uploads/`, so they stay when the theme is updated.
+3. Settings → Permalinks → choose **Post name** → Save.
+4. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
+
+A single big zip of the whole theme (≈123 MB) gets cut off by many hosts' upload limits, and WordPress then reports "Incompatible Archive" or "The link you followed has expired". That's why the photos are separate.
 
 ### Rebuild
 ```bash
@@ -54,5 +59,6 @@ python3 -I tools/crawl.py tools/seed-urls.txt site                     # re-down
 python3 -I tools/mirror.py tools/urls.txt coastal-friends/assets       # download assets listed in tools/urls.txt
 python3 -I tools/relativize_css.py coastal-friends/assets              # point CSS at local copies
 python3 -I tools/build_theme.py site coastal-friends                   # regenerate snapshots + manifest from site/
-python3 -I tools/pack_theme.py coastal-friends dist && (cd dist && zip -qr -9 ../coastal-friends.zip coastal-friends)   # one installable zip
+python3 -I tools/pack_theme.py coastal-friends dist                    # WebP photos, sizes the pages use
+python3 -I tools/split_photos.py dist/coastal-friends release 15       # release/coastal-friends.zip + coastal-friends-photos-N.zip
 ```

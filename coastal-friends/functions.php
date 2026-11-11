@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'CF_VERSION', '2.1.0' );
 
 require get_template_directory() . '/inc/forms.php';
+require get_template_directory() . '/inc/photo-import.php';
 
 /**
  * Theme setup.
