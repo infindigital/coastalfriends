@@ -20,7 +20,8 @@ header( 'Content-Type: application/json; charset=UTF-8' );
 header( 'X-Robots-Tag: noindex' );
 
 function cf_reply( $success, $message, $errors = array() ) {
-	$data = array( 'message' => $message );
+	// Same shape as Elementor Pro's reply; its script reads data.data.popup / data.data.redirect_url.
+	$data = array( 'message' => $message, 'data' => new stdClass() );
 	if ( $errors ) {
 		$data['errors'] = $errors;
 	}
@@ -39,6 +40,9 @@ $labels = array(
 	'field_6f77cfe' => 'Phone number',
 	'message'       => 'Message',
 	'email'         => 'Email',
+	'field_c9e2ae1' => 'Phone number',
+	'field_80324d9' => 'Job role',
+	'field_2e82403' => 'Privacy policy',
 );
 $fields = isset( $_POST['form_fields'] ) && is_array( $_POST['form_fields'] ) ? $_POST['form_fields'] : array();
 $clean  = array();

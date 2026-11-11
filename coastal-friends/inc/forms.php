@@ -33,7 +33,8 @@ add_action( 'init', 'cf_forms_init', 20 );
  * @param array  $errors  Field id => error text.
  */
 function cf_forms_reply( $success, $message, $errors = array() ) {
-	$data = array( 'message' => $message );
+	// Same shape as Elementor Pro's reply; its script reads data.data.popup / data.data.redirect_url.
+	$data = array( 'message' => $message, 'data' => new stdClass() );
 	if ( $errors ) {
 		$data['errors'] = $errors;
 	}
@@ -56,6 +57,9 @@ function cf_forms_send() {
 		'field_6f77cfe' => __( 'Phone number', 'coastal-friends' ),
 		'message'       => __( 'Message', 'coastal-friends' ),
 		'email'         => __( 'Email', 'coastal-friends' ),
+		'field_c9e2ae1' => __( 'Phone number', 'coastal-friends' ),
+		'field_80324d9' => __( 'Job role', 'coastal-friends' ),
+		'field_2e82403' => __( 'Privacy policy', 'coastal-friends' ),
 	);
 	$fields = array();
 	foreach ( $raw as $key => $value ) {
