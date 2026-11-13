@@ -48,6 +48,9 @@ function cf_photos_status() {
  * Admin menu entry.
  */
 function cf_photos_menu() {
+	if ( ! cf_photos_manifest() ) {
+		return; // All photos ship inside the theme; nothing to import.
+	}
 	add_theme_page( __( 'Coastal Friends Photos', 'coastal-friends' ), __( 'Coastal Friends Photos', 'coastal-friends' ), 'upload_files', 'cf-photos', 'cf_photos_page' );
 }
 add_action( 'admin_menu', 'cf_photos_menu' );

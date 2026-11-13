@@ -40,18 +40,14 @@ How it works:
 ### Google Analytics
 Appearance → Customize → **Google Analytics**: paste the GA4 Measurement ID (`G-XXXXXXXXXX`) and publish. The theme then adds the gtag.js snippet to every page. By default it doesn't count logged-in administrators (there's a checkbox to change that). Leave the field empty to turn tracking off.
 
-### Install (no File Manager needed)
-The theme is shipped as a small theme zip plus photo zips, so every upload stays well under typical hosting upload limits:
+### Install (one file)
+`coastal-friends-theme-complete.zip` (≈58 MB) is the whole site: the theme plus all 2,582 photos as AVIF (`tools/pack_theme.py … avif 38 70`). The image sizes the pages use are kept, so the layout is unchanged.
 
-* `coastal-friends.zip` (≈7 MB): the theme.
-* `coastal-friends-photos-1.zip` … `-8.zip` (≈15 MB each): the 2,572 photos (WebP, made by `tools/pack_theme.py` + `tools/split_photos.py`).
+1. WordPress → Appearance → Themes → Add New → **Upload Theme** → `coastal-friends-theme-complete.zip` → Install Now → **Activate**. Upload the zip as it is; don't unzip it.
+2. Settings → Permalinks → choose **Post name** → Save.
+3. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
 
-1. WordPress → Appearance → Themes → Add New → **Upload Theme** → `coastal-friends.zip` → Install → **Activate**.
-2. Appearance → **Coastal Friends Photos** → select all 8 photo zips at once → **Upload**. Keep the page open until it says **Done** and shows *2572 of 2572 photos installed*. The photos go into `wp-content/uploads/`, so they stay when the theme is updated.
-3. Settings → Permalinks → choose **Post name** → Save.
-4. Optional: Appearance → Customize → **Contact form** (recipient email) and **Google Analytics**.
-
-A single big zip of the whole theme (≈123 MB) gets cut off by many hosts' upload limits, and WordPress then reports "Incompatible Archive" or "The link you followed has expired". That's why the photos are separate.
+If the host's upload limit is under 58 MB, the split build is the fallback: `tools/split_photos.py` makes a small theme zip plus photo zips, installed from Appearance → Coastal Friends Photos.
 
 ### Rebuild
 ```bash
@@ -59,6 +55,7 @@ python3 -I tools/crawl.py tools/seed-urls.txt site                     # re-down
 python3 -I tools/mirror.py tools/urls.txt coastal-friends/assets       # download assets listed in tools/urls.txt
 python3 -I tools/relativize_css.py coastal-friends/assets              # point CSS at local copies
 python3 -I tools/build_theme.py site coastal-friends                   # regenerate snapshots + manifest from site/
-python3 -I tools/pack_theme.py coastal-friends dist                    # WebP photos, sizes the pages use
+python3 -I tools/pack_theme.py coastal-friends dist avif 38 70        # AVIF photos, sizes the pages use
+(cd dist && zip -qr -9 ../coastal-friends-theme-complete.zip coastal-friends)   # the one-file theme
 python3 -I tools/split_photos.py dist/coastal-friends release 15       # release/coastal-friends.zip + coastal-friends-photos-N.zip
 ```

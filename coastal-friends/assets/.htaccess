@@ -1,0 +1,5 @@
+# Make sure modern image formats are served with the right type.
+<IfModule mod_mime.c>
+	AddType image/avif .avif
+	AddType image/webp .webp
+</IfModule>

@@ -17,7 +17,14 @@ THEME, OUT = sys.argv[1], sys.argv[2]
 UP = os.path.join(THEME, "assets", "uploads")
 DST_THEME = os.path.join(OUT, "coastal-friends")
 DST_UP = os.path.join(DST_THEME, "assets", "uploads")
-SMALL_MAX_W, LARGE_MAX, Q, Q_PNG = 800, 1280, 62, 85
+SMALL_MAX_W, LARGE_MAX, Q, Q_PNG = 800, 1140, 62, 85
+# Optional: image format and quality, e.g. "avif 40 70" (photo quality, PNG-source quality).
+FMT = (sys.argv[3] if len(sys.argv) > 3 else "webp").lower()
+if len(sys.argv) > 4:
+    Q = int(sys.argv[4])
+if len(sys.argv) > 5:
+    Q_PNG = int(sys.argv[5])
+EXT = "." + FMT
 SIZE = re.compile(r"^(?P<base>.+?)(?P<edit>-e\d{10,})?(?:-(?P<w>\d+)x(?P<h>\d+))?(?P<scaled>-scaled)?\.(?P<ext>jpe?g|png|webp)$", re.I)
 
 if os.path.exists(DST_THEME):
@@ -60,7 +67,7 @@ for key, items in groups.items():
     # Large copy source: '-scaled' > original upload > biggest size.
     full = [it for it in items if it[1] and it[1].group("scaled")] or [it for it in items if it[1] and not it[1].group("w")] or sorted(items, key=width)[-1:]
     src_large = full[0][0]
-    large_name = os.path.basename(key) + ".webp"          # e.g. 1.jpeg.webp
+    large_name = os.path.basename(key) + EXT          # e.g. 1.jpeg.webp
     assert os.path.join(d, large_name) not in used, key
     used.add(os.path.join(d, large_name))
     # An original that a page shows directly keeps its full size (it may be displayed at natural width).
@@ -68,7 +75,7 @@ for key, items in groups.items():
     jobs.append((os.path.join(d, src_large), os.path.join(d, large_name), cap))
     for f, m in items:
         if (m and m.group("w") and int(m.group("w")) <= SMALL_MAX_W) or (m and m.group("w") and os.path.join(d, f) in direct):
-            new = f + ".webp"                               # e.g. 1-768x512.jpeg.webp
+            new = f + EXT                               # e.g. 1-768x512.jpeg.webp
             assert os.path.join(d, new) not in used, new
             used.add(os.path.join(d, new))
             jobs.append((os.path.join(d, f), os.path.join(d, new), None))
@@ -87,7 +94,10 @@ def convert(job):
         im = im.convert("RGBA" if "A" in im.getbands() or "transparency" in im.info else "RGB")
     out = os.path.join(DST_UP, dst)
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    im.save(out, "WEBP", quality=Q_PNG if is_png else Q, method=6)
+    if FMT == "avif":
+        im.save(out, "AVIF", quality=Q_PNG if is_png else Q, speed=6)
+    else:
+        im.save(out, "WEBP", quality=Q_PNG if is_png else Q, method=6)
     return os.path.getsize(out)
 
 
