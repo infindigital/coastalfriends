@@ -49,6 +49,7 @@ A classic WordPress theme that reproduces the whole site and **runs on real Word
 
 **Other**
 * `assets/` holds the CSS, JS, fonts and images.
+* Security: the contact forms have a hidden honeypot field, a signed timestamp (rejects submissions under 3 seconds) and a link-spam filter. Detected bots are told "success" but nothing is sent. Messages are limited to 5 per visitor per 10 minutes and 100 per day. The theme sends `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` and `Permissions-Policy` headers and hides the WordPress version.
 * Contact forms: without PRO Elements, `inc/forms.php` emails messages with `wp_mail()` to the address in **Appearance → Customize → Contact form** (default `info@coastalfriends.org`).
 
 ### Google Analytics

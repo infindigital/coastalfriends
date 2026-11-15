@@ -1628,7 +1628,7 @@ defined( 'ABSPATH' ) || exit;
 				</div>
 				<div class="elementor-element elementor-element-6f65e84b elementor-button-align-stretch elementor-widget elementor-widget-form" data-id="6f65e84b" data-element_type="widget" data-e-type="widget" data-settings="{&quot;step_next_label&quot;:&quot;Next&quot;,&quot;step_previous_label&quot;:&quot;Previous&quot;,&quot;button_width&quot;:&quot;100&quot;,&quot;step_type&quot;:&quot;number_text&quot;,&quot;step_icon_shape&quot;:&quot;circle&quot;}" data-widget_type="form.default">
 				<div class="elementor-widget-container">
-							<form class="elementor-form" method="post" name="New Form" aria-label="New Form">
+							<form class="elementor-form" method="post" name="New Form" aria-label="New Form"><?php echo cf_forms_trap_fields(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<input type="hidden" name="post_id" value="228"/>
 			<input type="hidden" name="form_id" value="6f65e84b"/>
 			<input type="hidden" name="referer_title" value="SufyHome" />

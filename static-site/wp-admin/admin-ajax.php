@@ -68,6 +68,22 @@ if ( ! $clean || strlen( implode( '', $clean ) ) > 20000 ) {
 	cf_reply( false, $cf_fail );
 }
 
+// Spam protection: more than 3 links -> dropped (bot is told "success"); rate limits per visitor and per day.
+if ( preg_match_all( '#(https?://|www\.)#i', implode( ' ', $clean ) ) > 3 ) {
+	cf_reply( true, $cf_ok );
+}
+$ip    = (string) ( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '' );
+$store = sys_get_temp_dir() . '/cf-form-' . md5( __FILE__ ) . '.json';
+$log   = is_readable( $store ) ? (array) json_decode( (string) file_get_contents( $store ), true ) : array();
+$now   = time();
+$log   = array_filter( $log, static function ( $e ) use ( $now ) { return $now - (int) $e['t'] < 86400; } );
+$mine  = array_filter( $log, static function ( $e ) use ( $ip, $now ) { return $e['ip'] === md5( $ip ) && $now - (int) $e['t'] < 600; } );
+if ( count( $mine ) >= 5 || count( $log ) >= 100 ) {
+	cf_reply( false, 'Too many messages were sent. Please try again later.' );
+}
+$log[] = array( 'ip' => md5( $ip ), 't' => $now );
+@file_put_contents( $store, json_encode( array_values( $log ) ), LOCK_EX );
+
 $page = trim( strip_tags( (string) ( $_POST['referer_title'] ?? '' ) ) );
 $body = "New form submission" . ( $page ? " from the \"$page\" page" : '' ) . ":\n\n";
 foreach ( $clean as $key => $value ) {

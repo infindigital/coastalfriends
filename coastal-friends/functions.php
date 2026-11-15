@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CF_VERSION', '3.0.0' );
+define( 'CF_VERSION', '3.1.0' );
 
 require get_template_directory() . '/inc/forms.php';
 require get_template_directory() . '/inc/photo-import.php';
@@ -34,6 +34,24 @@ function cf_setup() {
 	register_nav_menus( array( 'primary' => __( 'Primary', 'coastal-friends' ) ) );
 }
 add_action( 'after_setup_theme', 'cf_setup' );
+
+// Don't advertise the WordPress version.
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Standard browser security headers on the public site.
+ */
+function cf_security_headers() {
+	if ( is_admin() || headers_sent() ) {
+		return;
+	}
+	header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+	header( 'Permissions-Policy: camera=(), microphone=(), geolocation=()' );
+}
+add_action( 'send_headers', 'cf_security_headers' );
 
 /**
  * URL of a bundled asset. $path is relative to assets/ (mirrors wp-content/).

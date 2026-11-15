@@ -266,5 +266,17 @@ terms = {"categories": [{"slug": c["slug"], "name": html.unescape(c["name"]), "d
          "tags": [{"slug": t["slug"], "name": html.unescape(t["name"]), "description": t.get("description", "")} for t in TAGS]}
 json.dump({"terms": terms, "posts": posts_out}, open(os.path.join(THEME, "inc", "import", "posts.json"), "w", encoding="utf-8"),
           ensure_ascii=False, indent=1)
+# 7) Anti-spam fields (honeypot + signed timestamp, inc/forms.php) inside every contact form.
+TRAP = "<?php echo cf_forms_trap_fields(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
+forms = 0
+for f in glob.glob(os.path.join(THEME, "snapshots", "*.php")) + [os.path.join(THEME, n) for n in ("single.php", "archive.php")]:
+    t = open(f, encoding="utf-8").read()
+    if "cf_forms_trap_fields" in t:
+        continue
+    t2, n = re.subn(r'(<form class="elementor-form"[^>]*>)', lambda m: m.group(1) + TRAP, t)
+    if n:
+        open(f, "w", encoding="utf-8").write(t2)
+        forms += n
+print("contact forms protected:", forms)
 print("live grids:", sorted(widgets_cfg), "| paged titles:", paged_title, "| fallback copies:", len(manifest["fallback"]),
       "| import posts:", len(posts_out), "with featured", sum(1 for x in posts_out if x["featured"]))

@@ -26,6 +26,19 @@ function cf_forms_init() {
 add_action( 'init', 'cf_forms_init', 20 );
 
 /**
+ * Hidden anti-spam fields for the contact forms (honeypot + signed timestamp).
+ *
+ * @return string
+ */
+function cf_forms_trap_fields() {
+	$t = (string) time();
+	return '<div aria-hidden="true" style="position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden">'
+		. '<label>' . esc_html__( 'Leave this empty', 'coastal-friends' ) . '<input type="text" name="form_fields[cf_website]" value="" tabindex="-1" autocomplete="off"></label>'
+		. '<input type="hidden" name="form_fields[cf_ts]" value="' . esc_attr( $t . '.' . wp_hash( 'cf_form_ts|' . $t ) ) . '">'
+		. '</div>';
+}
+
+/**
  * Reply in Elementor's format and stop.
  *
  * @param bool   $success Whether it was sent.
@@ -61,6 +74,38 @@ function cf_forms_send() {
 		'field_80324d9' => __( 'Job role', 'coastal-friends' ),
 		'field_2e82403' => __( 'Privacy policy', 'coastal-friends' ),
 	);
+	// --- Spam protection -------------------------------------------------------
+	// Bots get the normal "success" reply, so they can't tell they were blocked.
+	$ok = __( 'Your submission was successful.', 'coastal-friends' );
+	// 1) Honeypot: a hidden field real visitors never see or fill.
+	if ( ! empty( $raw['cf_website'] ) ) {
+		cf_forms_reply( true, $ok );
+	}
+	// 2) Signed timestamp from the page: humans need more than 3 seconds to fill the form.
+	if ( ! empty( $raw['cf_ts'] ) ) {
+		$parts = explode( '.', (string) $raw['cf_ts'] );
+		if ( 2 !== count( $parts ) || ! hash_equals( wp_hash( 'cf_form_ts|' . $parts[0] ), $parts[1] ) || time() - (int) $parts[0] < 3 ) {
+			cf_forms_reply( true, $ok );
+		}
+	}
+	unset( $raw['cf_website'], $raw['cf_ts'] );
+	// 3) Rate limits: 5 messages per visitor per 10 minutes, 100 per day for the whole site.
+	// Visitor address (Cloudflare passes the real one; it is only used to count messages).
+	$ip = isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ? $_SERVER['HTTP_CF_CONNECTING_IP'] : ( isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	$ip = sanitize_text_field( wp_unslash( $ip ) );
+	$ip_key   = 'cf_form_ip_' . md5( $ip );
+	$day_key  = 'cf_form_day_' . gmdate( 'Ymd' );
+	$ip_count = (int) get_transient( $ip_key );
+	$day      = (int) get_transient( $day_key );
+	if ( $ip_count >= 5 || $day >= 100 ) {
+		cf_forms_reply( false, __( 'Too many messages were sent. Please try again later.', 'coastal-friends' ) );
+	}
+	// 4) Link spam: more than 3 links in a message.
+	if ( preg_match_all( '#(https?://|www\.)#i', implode( ' ', array_map( 'strval', array_filter( $raw, 'is_scalar' ) ) ) ) > 3 ) {
+		cf_forms_reply( true, $ok );
+	}
+	// ---------------------------------------------------------------------------
+
 	$fields = array();
 	foreach ( $raw as $key => $value ) {
 		$key = sanitize_key( $key );
@@ -97,6 +142,8 @@ function cf_forms_send() {
 		$headers[] = 'Reply-To: ' . $fields['email'];
 	}
 
+	set_transient( $ip_key, $ip_count + 1, 10 * MINUTE_IN_SECONDS );
+	set_transient( $day_key, $day + 1, DAY_IN_SECONDS );
 	if ( wp_mail( cf_forms_recipient(), $subject, $body, $headers ) ) {
 		cf_forms_reply( true, __( 'Your submission was successful.', 'coastal-friends' ) );
 	}
