@@ -792,50 +792,15 @@ defined( 'ABSPATH' ) || exit;
 				<div class="elementor-widget-container">
 									<p>Stay updated with our latest insights, stories, and updates in our recent blog posts. Dive into topics that matter and explore our journey!</p>								</div>
 				</div>
-				<div class="elementor-element elementor-element-394a684a elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient load-more-align-center elementor-invisible elementor-widget elementor-widget-posts" data-id="394a684a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;pagination_type&quot;:&quot;load_more_on_click&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;load_more_spinner&quot;:{&quot;value&quot;:&quot;fas fa-spinner&quot;,&quot;library&quot;:&quot;fa-solid&quot;}}" data-widget_type="posts.cards">
+				<?php if ( cf_widget_has_posts( '394a684a' ) ) : ?><div class="elementor-element elementor-element-394a684a elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient load-more-align-center elementor-invisible elementor-widget elementor-widget-posts" data-id="394a684a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;,&quot;pagination_type&quot;:&quot;load_more_on_click&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;load_more_spinner&quot;:{&quot;value&quot;:&quot;fas fa-spinner&quot;,&quot;library&quot;:&quot;fa-solid&quot;}}" data-widget_type="posts.cards">
 				<div class="elementor-widget-container">
 							<div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid" role="list">
-				<article class="elementor-post elementor-grid-item post-2324 post type-post status-publish format-standard has-post-thumbnail hentry category-gallery" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-felicitates-essam-mansoor-on-qatar-u19-selection/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img loading="lazy" decoding="async" width="984" height="1280" src="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM.webp' ) ); ?>" class="attachment-full size-full wp-image-2325" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM.webp' ) ); ?> 984w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-231x300.webp' ) ); ?> 231w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-787x1024.webp' ) ); ?> 787w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-768x999.webp' ) ); ?> 768w" sizes="(max-width: 984px) 100vw, 984px" /></div></a>
-				<div class="elementor-post__badge">Gallery</div>
-				<div class="elementor-post__text">
-				<h5 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-felicitates-essam-mansoor-on-qatar-u19-selection/' ) ); ?>" >
-				Coastal Friends Mangalore Felicitates Essam Mansoor on Qatar U19 Selection			</a>
-		</h5>
-				</div>
-					</div>
-		</article>
-				<article class="elementor-post elementor-grid-item post-2309 post type-post status-publish format-standard has-post-thumbnail hentry category-gallery tag-coastal tag-coastal-friends tag-coastal-friends-mangalore tag-mangalore" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-elects-new-leadership-team-for-2026-2027-at-annual-general-meeting/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img loading="lazy" decoding="async" width="1280" height="960" src="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1.webp' ) ); ?>" class="attachment-full size-full wp-image-2320" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1.webp' ) ); ?> 1280w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-300x225.webp' ) ); ?> 300w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-1024x768.webp' ) ); ?> 1024w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-768x576.webp' ) ); ?> 768w" sizes="(max-width: 1280px) 100vw, 1280px" /></div></a>
-				<div class="elementor-post__badge">Gallery</div>
-				<div class="elementor-post__text">
-				<h5 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-elects-new-leadership-team-for-2026-2027-at-annual-general-meeting/' ) ); ?>" >
-				Coastal Friends Mangalore Elects New Leadership Team for 2026–2027 at Annual General Meeting			</a>
-		</h5>
-				</div>
-					</div>
-		</article>
-				<article class="elementor-post elementor-grid-item post-2272 post type-post status-publish format-standard has-post-thumbnail hentry category-gallery tag-coastal-friends tag-coastal-friends-mangalore tag-cricket" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/cfm-barish-trophy-season-1-2025-concludes-with-grand-success/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img loading="lazy" decoding="async" width="2048" height="1366" src="<?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4.webp' ) ); ?>" class="attachment-full size-full wp-image-2287" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4.webp' ) ); ?> 2048w, <?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4-300x200.webp' ) ); ?> 300w, <?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4-1024x683.webp' ) ); ?> 1024w, <?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4-768x512.webp' ) ); ?> 768w, <?php echo esc_url( cf_assets_url( 'uploads/2026/02/CFM-BARISH-4-1536x1025.webp' ) ); ?> 1536w" sizes="(max-width: 2048px) 100vw, 2048px" /></div></a>
-				<div class="elementor-post__badge">Gallery</div>
-				<div class="elementor-post__text">
-				<h5 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/cfm-barish-trophy-season-1-2025-concludes-with-grand-success/' ) ); ?>" >
-				CFM Barish Trophy Season 1 – 2025 Concludes with Grand Success			</a>
-		</h5>
-				</div>
-					</div>
-		</article>
+<?php cf_posts_widget( '394a684a' ); ?>
 				</div>
 					<span class="e-load-more-spinner">
 				<svg aria-hidden="true" class="e-font-icon-svg e-fas-spinner" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"></path></svg>			</span>
 		
-				<div class="e-load-more-anchor" data-page="1" data-max-page="12" data-next-page="<?php echo esc_url( home_url( '/page/2/' ) ); ?>"></div>
+				<?php cf_posts_widget_anchor( '394a684a' ); ?>
 				<div class="elementor-button-wrapper">
 			<a class="elementor-button elementor-size-sm" role="button">
 						<span class="elementor-button-content-wrapper">
@@ -845,7 +810,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 				<div class="e-load-more-message"></div>
 						</div>
-				</div>
+				</div><?php endif; ?>
 					</div>
 		</div>
 					</div>

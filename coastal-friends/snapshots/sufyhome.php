@@ -1606,61 +1606,14 @@ defined( 'ABSPATH' ) || exit;
 				<div class="elementor-widget-container">
 									<p>Justo donec enim diam vulputate bibendum neque egestas congue quisque egestas diam in.</p>								</div>
 				</div>
-				<div class="elementor-element elementor-element-577b35f2 elementor-posts__hover-none elementor-grid-2 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-widget elementor-widget-posts" data-id="577b35f2" data-element_type="widget" data-e-type="widget" data-settings="{&quot;cards_columns&quot;:&quot;2&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards">
+				<?php if ( cf_widget_has_posts( '577b35f2' ) ) : ?><div class="elementor-element elementor-element-577b35f2 elementor-posts__hover-none elementor-grid-2 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-widget elementor-widget-posts" data-id="577b35f2" data-element_type="widget" data-e-type="widget" data-settings="{&quot;cards_columns&quot;:&quot;2&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards">
 				<div class="elementor-widget-container">
 							<div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid" role="list">
-				<article class="elementor-post elementor-grid-item post-2324 post type-post status-publish format-standard has-post-thumbnail hentry category-gallery" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-felicitates-essam-mansoor-on-qatar-u19-selection/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img loading="lazy" decoding="async" width="984" height="1280" src="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM.webp' ) ); ?>" class="attachment-full size-full wp-image-2325" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM.webp' ) ); ?> 984w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-231x300.webp' ) ); ?> 231w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-787x1024.webp' ) ); ?> 787w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/WhatsApp-Image-2026-08-19-at-10.06.41-PM-768x999.webp' ) ); ?> 768w" sizes="(max-width: 984px) 100vw, 984px" /></div></a>
-				<div class="elementor-post__text">
-				<h4 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-felicitates-essam-mansoor-on-qatar-u19-selection/' ) ); ?>" >
-				Coastal Friends Mangalore Felicitates Essam Mansoor on Qatar U19 Selection			</a>
-		</h4>
-				<div class="elementor-post__excerpt">
-			<p>Coastal Friends Mangalore proudly felicitated young cricketing talent Essam Mansoor in recognition of his outstanding achievements and his selection to the Qatar U19 National Squad.</p>
-		</div>
-		
-		<a class="elementor-post__read-more" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-felicitates-essam-mansoor-on-qatar-u19-selection/' ) ); ?>" aria-label="Read more about Coastal Friends Mangalore Felicitates Essam Mansoor on Qatar U19 Selection" tabindex="-1" >
-			Read More »		</a>
-
-				</div>
-				<div class="elementor-post__meta-data">
-					<span class="elementor-post-date">
-			August 20, 2026		</span>
-				<span class="elementor-post-avatar">
-			No Comments		</span>
-				</div>
-					</div>
-		</article>
-				<article class="elementor-post elementor-grid-item post-2309 post type-post status-publish format-standard has-post-thumbnail hentry category-gallery tag-coastal tag-coastal-friends tag-coastal-friends-mangalore tag-mangalore" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-elects-new-leadership-team-for-2026-2027-at-annual-general-meeting/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img loading="lazy" decoding="async" width="1280" height="960" src="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1.webp' ) ); ?>" class="attachment-full size-full wp-image-2320" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1.webp' ) ); ?> 1280w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-300x225.webp' ) ); ?> 300w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-1024x768.webp' ) ); ?> 1024w, <?php echo esc_url( cf_assets_url( 'uploads/2026/08/Coastal-Friends-Mangalore-Elects-New-Leadership-Team-for-2026–2027-at-Annual-General-Meeting-1-768x576.webp' ) ); ?> 768w" sizes="(max-width: 1280px) 100vw, 1280px" /></div></a>
-				<div class="elementor-post__text">
-				<h4 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-elects-new-leadership-team-for-2026-2027-at-annual-general-meeting/' ) ); ?>" >
-				Coastal Friends Mangalore Elects New Leadership Team for 2026–2027 at Annual General Meeting			</a>
-		</h4>
-				<div class="elementor-post__excerpt">
-			<p>Coastal Friends Mangalore (Regd.) successfully conducted its Annual General Meeting (AGM) at the Bombay Lucky Restaurant Hall under the chairmanship of the outgoing President, Mr.</p>
-		</div>
-		
-		<a class="elementor-post__read-more" href="<?php echo esc_url( home_url( '/coastal-friends-mangalore-elects-new-leadership-team-for-2026-2027-at-annual-general-meeting/' ) ); ?>" aria-label="Read more about Coastal Friends Mangalore Elects New Leadership Team for 2026–2027 at Annual General Meeting" tabindex="-1" >
-			Read More »		</a>
-
-				</div>
-				<div class="elementor-post__meta-data">
-					<span class="elementor-post-date">
-			August 5, 2026		</span>
-				<span class="elementor-post-avatar">
-			No Comments		</span>
-				</div>
-					</div>
-		</article>
+<?php cf_posts_widget( '577b35f2' ); ?>
 				</div>
 		
 						</div>
-				</div>
+				</div><?php endif; ?>
 					</div>
 		</div>
 				<div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-7b2dc3a9" data-id="7b2dc3a9" data-element_type="column" data-e-type="column">

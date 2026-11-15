@@ -1,0 +1,84 @@
+{
+ "394a684a": {
+  "query": "all",
+  "per_page": 3,
+  "paged_key": "",
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__badge\">{{BADGE}}</div>\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h5 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h5>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 0,
+  "pagination_type": "load_more_on_click",
+  "anchor": true,
+  "nav": false,
+  "skin": "posts.cards"
+ },
+ "1a7ee9c": {
+  "query": "category",
+  "term": "gallery",
+  "per_page": 21,
+  "paged_key": "gallery",
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__badge\">{{BADGE}}</div>\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h5 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h5>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 0,
+  "pagination_type": "load_more_on_click",
+  "anchor": true,
+  "nav": false,
+  "skin": "posts.cards"
+ },
+ "838f6f6": {
+  "query": "category",
+  "term": "event",
+  "per_page": 6,
+  "paged_key": "events",
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__badge\">{{BADGE}}</div>\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h5 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h5>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 0,
+  "pagination_type": "prev_next",
+  "anchor": false,
+  "nav": false,
+  "skin": "posts.cards"
+ },
+ "12f013f6": {
+  "query": "all",
+  "per_page": 2,
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h4 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h4>\n\t\t\t\t<div class=\"elementor-post__excerpt\">\n\t\t\t<p>{{EXCERPT}}</p>\n\t\t</div>\n\t\t\n\t\t<a class=\"elementor-post__read-more\" href=\"{{PERMALINK}}\" aria-label=\"Read more about Coastal Friends Mangalore Felicitates Essam Mansoor on Qatar U19 Selection\" tabindex=\"-1\" >\n\t\t\tRead More »\t\t</a>\n\n\t\t\t\t</div>\n\t\t\t\t<div class=\"elementor-post__meta-data\">\n\t\t\t\t\t<span class=\"elementor-post-date\">\n\t\t\t{{DATE}}\t\t</span>\n\t\t\t\t<span class=\"elementor-post-avatar\">\n\t\t\t{{COMMENTS}}\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 25,
+  "pagination_type": "",
+  "anchor": false,
+  "nav": false,
+  "skin": "posts.cards"
+ },
+ "577b35f2": {
+  "query": "all",
+  "per_page": 2,
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h4 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h4>\n\t\t\t\t<div class=\"elementor-post__excerpt\">\n\t\t\t<p>{{EXCERPT}}</p>\n\t\t</div>\n\t\t\n\t\t<a class=\"elementor-post__read-more\" href=\"{{PERMALINK}}\" aria-label=\"Read more about Coastal Friends Mangalore Felicitates Essam Mansoor on Qatar U19 Selection\" tabindex=\"-1\" >\n\t\t\tRead More »\t\t</a>\n\n\t\t\t\t</div>\n\t\t\t\t<div class=\"elementor-post__meta-data\">\n\t\t\t\t\t<span class=\"elementor-post-date\">\n\t\t\t{{DATE}}\t\t</span>\n\t\t\t\t<span class=\"elementor-post-avatar\">\n\t\t\t{{COMMENTS}}\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 25,
+  "pagination_type": "",
+  "anchor": false,
+  "nav": false,
+  "skin": "posts.cards"
+ },
+ "51353b09": {
+  "query": "main",
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t<div class=\"elementor-post__card\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__badge\">{{BADGE}}</div>\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h5 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h5>\n\t\t\t\t<div class=\"elementor-post__excerpt\">\n\t\t\t<p>{{EXCERPT}}</p>\n\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"elementor-post__meta-data\">\n\t\t\t\t\t<span class=\"elementor-post-date\">\n\t\t\t{{DATE}}\t\t</span>\n\t\t\t\t<span class=\"elementor-post-avatar\">\n\t\t\t{{COMMENTS}}\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" ><div class=\"elementor-post__thumbnail\">{{THUMB}}</div></a>",
+  "excerpt_words": 15,
+  "pagination_type": "numbers",
+  "anchor": true,
+  "nav": true,
+  "skin": "archive-posts.archive_cards"
+ },
+ "6b7e2b0e": {
+  "query": "all",
+  "per_page": 3,
+  "order": "ASC",
+  "template": "<article class=\"elementor-post elementor-grid-item {{POST_CLASSES}}\" role=\"listitem\">\n\t\t\t\t{{THUMB_BLOCK}}\n\t\t\t\t<div class=\"elementor-post__text\">\n\t\t\t\t<h4 class=\"elementor-post__title\">\n\t\t\t<a href=\"{{PERMALINK}}\" >\n\t\t\t\t{{TITLE}}\t\t\t</a>\n\t\t</h4>\n\t\t\t\t<div class=\"elementor-post__meta-data\">\n\t\t\t\t\t<span class=\"elementor-post-date\">\n\t\t\t{{DATE}}\t\t</span>\n\t\t\t\t<span class=\"elementor-post-avatar\">\n\t\t\t{{COMMENTS}}\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t</article>",
+  "thumb_block": "<a class=\"elementor-post__thumbnail__link\" href=\"{{PERMALINK}}\" tabindex=\"-1\" >\n\t\t\t<div class=\"elementor-post__thumbnail\">{{THUMB}}</div>\n\t\t</a>",
+  "excerpt_words": 0,
+  "pagination_type": "",
+  "anchor": false,
+  "nav": false,
+  "skin": "posts.classic"
+ }
+}

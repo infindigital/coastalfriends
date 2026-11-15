@@ -14,10 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CF_VERSION', '2.1.0' );
+define( 'CF_VERSION', '3.0.0' );
 
 require get_template_directory() . '/inc/forms.php';
 require get_template_directory() . '/inc/photo-import.php';
+require get_template_directory() . '/inc/dynamic.php';
+require get_template_directory() . '/inc/importer.php';
 
 /**
  * Theme setup.
@@ -27,6 +29,7 @@ function cf_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'custom-logo' );
+	add_theme_support( 'responsive-embeds' ); // wp-embed-responsive: 16:9 video embeds, as on the original.
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'script', 'style' ) );
 	register_nav_menus( array( 'primary' => __( 'Primary', 'coastal-friends' ) ) );
 }
@@ -104,16 +107,29 @@ function cf_page_key() {
 	}
 	$data   = cf_asset_data();
 	$path   = cf_request_path();
+	$paged  = 1;
 	$result = null;
+	// Page 2, 3 ... of a page's post grid: /page/2/, /gallery/2/, /events/2/.
+	if ( preg_match( '#^page/(\d+)$#', $path, $m ) ) {
+		$path  = '';
+		$paged = (int) $m[1];
+	} elseif ( preg_match( '#^([a-z0-9-]+)/(?:page/)?(\d+)$#', $path, $m ) && in_array( $m[1], $data['paged_keys'], true ) ) {
+		$path  = $m[1];
+		$paged = (int) $m[2];
+	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$query_override = array_intersect( array_keys( $_GET ), array( 's', 'p', 'page_id', 'preview', 'feed', 'attachment_id', 'cat', 'tag', 'author' ) );
-	if ( 0 !== strpos( $path, '__' ) && array_key_exists( $path, $data['pages'] ) && ! is_admin() && ! is_feed() && ! is_preview() && ! is_search() && empty( $query_override ) ) {
+	$allowed        = ! is_admin() && ! is_feed() && ! is_preview() && ! is_search() && empty( $query_override );
+	// Posts and archives are real WordPress content; their copies only fill in while they don't exist (before the import).
+	$is_fallback = in_array( $path, $data['fallback'], true );
+	if ( $allowed && 0 !== strpos( $path, '__' ) && array_key_exists( $path, $data['pages'] ) && ( ! $is_fallback || is_404() ) ) {
 		$result = $path;
 	} elseif ( is_404() && isset( $data['pages']['__404'] ) ) {
 		$result = '__404'; // The original site's "page not found" design.
 	}
 	if ( did_action( 'wp' ) ) {
-		$key = $result;
+		$key                = $result;
+		$GLOBALS['cf_paged'] = null === $result ? 1 : $paged;
 	}
 	return $result;
 }
@@ -170,10 +186,15 @@ add_filter(
  * @return string
  */
 function cf_template_include( $template ) {
-	if ( null === cf_page_key() ) {
-		return $template;
+	if ( null !== cf_page_key() ) {
+		$located = locate_template( 'snapshot.php' );
+	} elseif ( is_singular( 'post' ) ) {
+		$located = locate_template( 'single.php' );
+	} elseif ( is_category() || is_tag() || is_author() ) {
+		$located = locate_template( 'archive.php' );
+	} else {
+		$located = '';
 	}
-	$located = locate_template( 'snapshot.php' );
 	return $located ? $located : $template;
 }
 add_filter( 'template_include', 'cf_template_include', PHP_INT_MAX );
@@ -186,7 +207,22 @@ add_filter( 'template_include', 'cf_template_include', PHP_INT_MAX );
 function cf_current_set() {
 	$data = cf_asset_data();
 	$key  = cf_page_key();
-	return null === $key ? $data['base'] : $data['pages'][ $key ];
+	if ( null !== $key ) {
+		return $data['pages'][ $key ];
+	}
+	if ( is_singular( 'post' ) ) {
+		// An imported original post keeps its page's exact assets (lightbox data, gallery CSS).
+		$id   = get_queried_object_id();
+		$slug = get_post_field( 'post_name', $id );
+		if ( isset( $data['pages'][ $slug ] ) && get_post_meta( $id, '_cf_src_id', true ) ) {
+			return array_merge( $data['pages'][ $slug ], array( 'body_class' => $data['dynamic']['single']['body_class'], 'title' => '' ) );
+		}
+		return $data['dynamic']['single'];
+	}
+	if ( is_category() || is_tag() || is_author() ) {
+		return $data['dynamic']['archive'];
+	}
+	return $data['base'];
 }
 
 /**
@@ -196,8 +232,15 @@ function cf_current_set() {
  * @return string
  */
 function cf_document_title( $title ) {
-	$set = cf_current_set();
-	return null === cf_page_key() ? $title : $set['title'];
+	$key = cf_page_key();
+	if ( null === $key ) {
+		return $title;
+	}
+	$data = cf_asset_data();
+	if ( cf_paged() > 1 && isset( $data['paged_title'][ $key ] ) ) {
+		return sprintf( $data['paged_title'][ $key ], cf_paged() );
+	}
+	return $data['pages'][ $key ]['title'];
 }
 add_filter( 'pre_get_document_title', 'cf_document_title', PHP_INT_MAX );
 
@@ -235,7 +278,7 @@ function cf_fill_inline( $code ) {
 function cf_enqueue_assets() {
 	$set = cf_current_set();
 
-	if ( null !== cf_page_key() ) {
+	if ( null !== cf_page_key() || is_singular( 'post' ) || is_category() || is_tag() || is_author() ) {
 		// Core styles the original page did not load (they would change the layout).
 		$listed = wp_list_pluck( $set['styles'], 0 );
 		foreach ( array( 'wp-block-library', 'wp-block-library-theme', 'classic-theme-styles', 'global-styles' ) as $core ) {

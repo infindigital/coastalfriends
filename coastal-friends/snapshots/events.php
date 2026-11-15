@@ -133,25 +133,14 @@ defined( 'ABSPATH' ) || exit;
 				<div class="elementor-widget-container">
 									<p>Stay updated with our latest insights, stories, and updates in our recent blog posts. Dive into topics that matter and explore our journey!</p>								</div>
 				</div>
-				<div class="elementor-element elementor-element-838f6f6 elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="838f6f6" data-element_type="widget" data-e-type="widget" data-settings="{&quot;pagination_type&quot;:&quot;prev_next&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards">
+				<?php if ( cf_widget_has_posts( '838f6f6' ) ) : ?><div class="elementor-element elementor-element-838f6f6 elementor-grid-3 elementor-grid-tablet-2 elementor-grid-mobile-1 elementor-posts--thumbnail-top elementor-card-shadow-yes elementor-posts__hover-gradient elementor-widget elementor-widget-posts" data-id="838f6f6" data-element_type="widget" data-e-type="widget" data-settings="{&quot;pagination_type&quot;:&quot;prev_next&quot;,&quot;cards_columns&quot;:&quot;3&quot;,&quot;cards_columns_tablet&quot;:&quot;2&quot;,&quot;cards_columns_mobile&quot;:&quot;1&quot;,&quot;cards_row_gap&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:35,&quot;sizes&quot;:[]},&quot;cards_row_gap_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;cards_row_gap_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="posts.cards">
 				<div class="elementor-widget-container">
 							<div class="elementor-posts-container elementor-posts elementor-posts--skin-cards elementor-grid" role="list">
-				<article class="elementor-post elementor-grid-item post-1998 post type-post status-publish format-standard has-post-thumbnail hentry category-event" role="listitem">
-			<div class="elementor-post__card">
-				<a class="elementor-post__thumbnail__link" href="<?php echo esc_url( home_url( '/coastal-friends-awards/' ) ); ?>" tabindex="-1" ><div class="elementor-post__thumbnail"><img decoding="async" width="2560" height="1706" src="<?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-scaled.webp' ) ); ?>" class="attachment-full size-full wp-image-2001" alt="" srcset="<?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-scaled.webp' ) ); ?> 2560w, <?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-300x200.webp' ) ); ?> 300w, <?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-1024x683.webp' ) ); ?> 1024w, <?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-768x512.webp' ) ); ?> 768w, <?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-1536x1024.webp' ) ); ?> 1536w, <?php echo esc_url( cf_assets_url( 'uploads/2025/01/IMG-20250112-WA0094-2048x1365.webp' ) ); ?> 2048w" sizes="(max-width: 2560px) 100vw, 2560px" /></div></a>
-				<div class="elementor-post__badge">events</div>
-				<div class="elementor-post__text">
-				<h5 class="elementor-post__title">
-			<a href="<?php echo esc_url( home_url( '/coastal-friends-awards/' ) ); ?>" >
-				Coastal Friends Awards			</a>
-		</h5>
-				</div>
-					</div>
-		</article>
+<?php cf_posts_widget( '838f6f6' ); ?>
 				</div>
 		
 						</div>
-				</div>
+				</div><?php endif; ?>
 					</div>
 		</div>
 					</div>
